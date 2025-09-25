@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Upload 3 Images</title>
+  </head>
+  <body>
+    <h1>Upload Your 3 Images 🚀</h1>
+
+    <!-- Terms agreement -->
+    <label>
+      <input type="checkbox" id="agree" />
+      I agree to the <a href="#">Terms</a> and <a href="#">Privacy Policy</a>
+    </label>
+    <br><br>
+
+    <!-- File input -->
+    <input type="file" id="files" multiple accept="image/*" />
+    <br><br>
+
+    <!-- Upload button -->
+    <button onclick="uploadImages()">Upload</button>
+
+    <p id="status"></p>
+
+    <script>
+      // Simple session id
+      const sessionId = Date.now(); 
+
+      async function uploadImages() {
+        const agree = document.getElementById("agree").checked;
+        if (!agree) {
+          alert("You must agree to Terms and Privacy Policy.");
+          return;
+        }
+
+        const files = document.getElementById("files").files;
+        if (files.length !== 3) {
+          alert("Please select exactly 3 images.");
+          return;
+        }
+
+        document.getElementById("status").innerText = "Starting upload...";
+
+        for (let i = 0; i < 3; i++) {
+          const priority = i === 0 ? 1 : i + 1; // 1,2,3
+          const srcid = i + 1;                  // 1,2,3
+          const file = files[i];
+
+          // Construct filename
+          const filename = `src_priority_${priority}_cid_${sessionId}_srcid_${srcid}_palette_id_1_flavor_5_device_iphone14promax_dst_wlp`;
+
+          // Ask backend for presigned URL
